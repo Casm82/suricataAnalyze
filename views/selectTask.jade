@@ -1,0 +1,188 @@
+extends layout
+block css
+    link(rel='stylesheet', href='/styles/selectTask.css')
+block scripts
+    script(src="/scripts/formatNumber.js")
+block header
+    div#headerStats
+      if dbStats.importing
+        p
+          strong Производится импорт журналов Suricata. Статистика недоступна.
+      else
+        div На данный момент база данных содержит&nbsp
+          strong.numField= dbStats.numRecords
+          | &nbspобращений к DNS
+        div за период с&nbsp
+          strong= dbStats.minDate.toLocaleString()
+          | &nbspпо&nbsp
+          strong= dbStats.maxDate.toLocaleString()
+        div Для анализа за другой период, выберите "Загрузить файлы журналов обращения к DNS в БД для анализа"
+block content
+    div.info Выберите задачу
+    form(id="editFilters" action="/editFilters" method="POST")
+    form(id="filterRecords" action="/filterRecords" method="POST")
+    form(id="searchByIP" action="/search" method="POST")
+    form(id="searchByRRname" action="/search" method="POST")
+    table#selectTask
+      if !dbStats.importing
+        tr
+          td Загрузить файлы журналов обращения к DNS в БД для анализа
+          td(colspan="2").button
+            a(href="/loadLogs")
+              button
+                img(src="/images/load.png")
+                | &nbspЗагрузить
+        tr
+          td Просмотреть все записи обращений к DNS (~4 Мб)
+          td.button
+            a(href="/viewFullLog.html")
+              button
+                |  html
+          td.button
+            a(href="/viewFullLog.json")
+              button
+                |  json
+        tr
+          td Просмотреть список наиболее частых DNS запросов
+          td.button
+            a(href="/viewTopQueries.html")
+              button
+                | html
+          td.button
+            a(href="/viewTopQueries.json")
+              button
+                | json
+
+        tr
+          td Просмотреть список наиболее частых доменов в DNS запросах
+          td.button
+            a(href="/viewTopDomains.html")
+              button
+                | html
+          td.button
+            a(href="/viewTopDomains.json")
+              button
+                | json
+
+        tr
+          td Найти обращения к DNS с ip адреса
+          td
+            input(form="searchByIP" name="srcip" placeholder="ip адрес" required pattern="\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}" size="15")
+          td.button
+            button(form="searchByIP" type="submit")
+              | Поиск
+
+        tr
+          td Найти обращения к DNS по значению rrname
+          td
+            input(form="searchByRRname" name="rrname" placeholder="доменное имя" required size="15")
+          td.button
+            button(form="searchByRRname" type="submit")
+              | Поиск
+
+        tr
+          td Отредактировать список исключаемых доменов и компьютеров
+          if filters.length
+            td.button
+              select(form="editFilters" required size="1" name="filterName")
+                each filter in filters
+                  option= filter._id
+              td.button
+                button(form="editFilters" type="submit")
+                  img(src="/images/edit.png")
+                  | &nbspРедактировать
+          else
+            input(form="editFilters" type="hidden" name="filterName" value=null)
+            td(colspan="2").button
+              button(form="editFilters" type="submit")
+                img(src="/images/edit.png")
+                | &nbspВыполнить
+
+         if filters.length
+           tr
+             td Отфильтровать записи обращений к DNS согласно списку
+             td.button
+               select(form="filterRecords" required size="1" name="filterName")
+                 each filter in filters
+                     option= filter._id
+             td.button
+               button(form="filterRecords" type="submit")
+                 img(src="/images/filter.png")
+                 | &nbspФильтровать
+
+      else
+        tr
+          td Отредактировать список исключаемых доменов и компьютеров
+          if filters.length
+            td.button
+              select(form="editFilters" required size="1" name="filterName")
+                  each filter in filters
+                    option= filter._id
+              td.button
+                button(form="editFilters" type="submit")
+                  img(src="/images/edit.png")
+                  | &nbspРедактировать
+          else
+            input(form="editFilters" type="hidden" name="filterName" value=null)
+            td(colspan="2").button
+              button(form="editFilters" type="submit")
+                img(src="/images/edit.png")
+                | &nbspВыполнить
+
+    div
+       div.info Справка по командам:
+       - var realm = appSettings.basicAuth.user + ":" + appSettings.basicAuth.password;
+       ul
+         li
+           span Получить полный журнал обращений к DNS:&nbsp
+           br
+           code curl -k -u&nbsp
+             span= realm
+             | &nbsphttps://suricata.domain.ru:3000/rest/getFullLog
+         li
+           span Получить список наиболее частых DNS запросов:&nbsp
+           br
+           code curl -k -u&nbsp
+             span= realm
+             | &nbsphttps://suricata.domain.ru:3000/rest/getTopQueries
+         li
+           span Получить список наиболее частых доменов в DNS запросах:&nbsp
+           br
+           code curl -k -u&nbsp
+             span= realm
+             | &nbsphttps://suricata.domain.ru:3000/rest/getTopDomains
+
+    if listReports && listReports.length
+      div
+        div.info Список последних созданных отчётов
+        table#listReports
+          th Дата создания
+          th Фильтр
+          th Автор
+          th Записей
+          th Содержит записи с
+          th Содержит записи по
+          th Записей обработано
+          each report in listReports
+              tr
+                td
+                  a(href="/viewReport/"+report._id)
+                    = report.created.toLocaleString()
+                td
+                  a(href="/editFilters/"+report.filterName)
+                    =report.filterName
+                if report.creator
+                    td= report.creator
+                else
+                    td
+                if report.hostsLength
+                    td= report.hostsLength
+                else
+                    td NaN
+                td= report.minDate.toLocaleString()
+                td= report.maxDate.toLocaleString()
+                td.numField= report.numRecords
+
+    footer
+      small 17.03.2015
+//- vim:shiftwidth=4:expandtab:number:list:autoindent

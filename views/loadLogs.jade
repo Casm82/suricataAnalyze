@@ -1,0 +1,45 @@
+extends layout
+block css
+    link(rel='stylesheet', href='/styles/loadLogs.css')
+block scripts
+    script(src="/socket.io/socket.io.js")
+    script(src="/scripts/formatNumber.js")
+    script(src="/scripts/socketinit.js")
+
+block header
+    div#headerStats
+      if dbStats.importing
+        p
+          strong  Производится импорт журналов Suricata. Статистика недоступна.
+      else
+        div На данный момент база данных содержит&nbsp
+          strong.numField= dbStats.numRecords
+          | &nbspобращений к DNS
+        div за период с&nbsp
+          strong= dbStats.minDate.toLocaleString()
+          | &nbspпо&nbsp
+          strong= dbStats.maxDate.toLocaleString()
+
+block content
+  if dbStats.importing
+    p
+      strong  Производится импорт журналов Suricata.
+  else
+    div#consoleErr.info
+    div#upload
+       button Загрузить отмеченные файлы в БД
+    code#consoleLog
+      table
+        tr
+          th Загрузить
+          th Имя файла журнала
+          th Размер, байт
+          th Дата изменения
+        each stat, file in fileStats
+          tr
+             td
+               input(type="checkbox" name=file)
+             td= file
+             td.numField= stat.size
+             td= stat.mtime.toLocaleString()
+//- vim:shiftwidth=4:expandtab:number:list:autoindent

@@ -1,0 +1,20 @@
+{
+  "name": "dnsAnalyze",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Analyze dns queries",
+  "main": "app.js",
+  "author": "Casm",
+  "license": "GPL v2",
+  "homepage": "https://github.com/Casm82/dnsAnalyze",
+  "dependencies": {  
+    "async": "0.x",
+    "activedirectory": "0.x",
+    "express": "4.x",
+    "express-middlewares": "0.x",
+    "express-sessions": "1.x",
+    "jade": "1.x",
+    "mongoose": "3.x",
+    "socket.io": "0.x"
+  }
+}

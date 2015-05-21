@@ -1,0 +1,14 @@
+table#records {
+	border-collapse: collapse; 
+}
+td,th {border: 1px solid black; padding: 0.1em 0.5em;}
+td {text-align: right;}
+col.query {width: 30em;}
+col.count {width: 12em;}
+
+.link {
+	float: right;
+	padding: 0.1em 0.5em;
+	margin: 0.15em 0.2em;
+	border-radius: 4px;
+}

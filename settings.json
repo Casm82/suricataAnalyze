@@ -1,0 +1,17 @@
+{
+	"port": 3000,
+	"logsDir":		"/var/log/suricata",
+	"filteredDir":	"/var/log/analyze",
+	"mongoBinDir":	"/opt/mongodb/bin",
+	"excludedIP":	["172.16.1.1", "172.16.1.2"],
+	"logsName":		"eve.json",
+	"db":		 	"suricata",
+	"dnsCollection":	"dns",
+	"basicAuth":	{"user": "log", "password": "password"},
+	"ldapConfig": { "url": "ldap://dc.domain.ru",
+        "baseDN": "dc=domain,dc=ru",
+        "username": "testuser@domain.ru",
+        "password": "testpwd" },
+	"domain":	"domain.ru",
+    "groupName":  "operator"
+}

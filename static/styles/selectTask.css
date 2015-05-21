@@ -1,0 +1,17 @@
+table {
+	border: 1px solid black;
+	border-collapse: collapse; 
+}
+td,th {
+	border: 1px solid black;
+	padding: 0.25em;
+}
+
+table#selectTask td.button { text-align: center;}
+table#selectTask td.button button { width: 12em;}
+table#selectTask td.button select { width: 12em;}
+table#listReports td { padding: 0.3em; }
+
+ul {margin: 0.25em;}
+li {padding: 0.25em 0;}
+code {padding: 0.2em 1em;}

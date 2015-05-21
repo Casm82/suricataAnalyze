@@ -1,0 +1,11 @@
+h1 {color: green;}
+#log { 
+	border: 4px ridge grey;
+	background: #DDD;
+	padding: 1em;
+	position: fixed;
+	top: 5em;
+	left: 2em;
+	height: 70%;
+	width: 90%;
+}

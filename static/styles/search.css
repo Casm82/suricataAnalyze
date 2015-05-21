@@ -1,0 +1,9 @@
+table#records {
+	border-collapse: collapse; 
+}
+td,th {border: 1px solid black; padding: 0.1em 0.5em;}
+td {text-align: right;}
+col.ts {width: 14em;}
+col.ip {width: 6em;}
+col.rrname {width: 12em;}
+col.type {width: 4em;}

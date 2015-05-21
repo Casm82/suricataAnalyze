@@ -1,0 +1,44 @@
+extends layout
+block css
+    link(rel='stylesheet', href='/styles/search.css')
+block scripts
+    script(src="/scripts/formatNumber.js")
+
+block header
+    div#headerStats
+      div
+          strong= title
+      div На основе анализа&nbsp
+          span.numField= dbStats.numRecords
+          | &nbspобращений к DNS за период с&nbsp
+          strong= dbStats.minDate.toLocaleString()
+          | &nbspпо&nbsp
+          strong= dbStats.maxDate.toLocaleString()
+      div Количество записей в отчёте:&nbsp
+          span= records.length
+
+block content
+  if (records && records.length)
+    table#records
+      colgroup
+        col.ts
+        col.dst
+        col.rrname
+        col.type
+      tbody
+          tr
+            th Время запроса
+            th Адрес обращения
+            th Запрос
+            th Тип запроса
+        each record in records
+          tr
+            td= record.timestamp.replace("T", " ")
+            td= record.dest_ip
+            td
+                a(href="/search/rrname/" + record.dns.rrname)= record.dns.rrname
+            td= record.dns.rrtype
+  else
+    div.info Записей не найдено
+
+//- vim:shiftwidth=4:expandtab:number:list
