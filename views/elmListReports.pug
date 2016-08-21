@@ -1,0 +1,30 @@
+table#listReports
+  th №
+  th Отчёт
+  th Фильтр
+  th Автор
+  th Записей
+  th Содержит записи с
+  th Содержит записи по
+  th Записей обработано
+  each report in listReports
+    tr
+      td.numRows
+      td
+        a(href="/viewReport/"+report._id)
+          | Открыть отчёт за&nbsp
+          = report.created.toLocaleString()
+      td
+        a(href="/editFilters/"+report.filterName)
+          =report.filterName
+      if report.creator
+        td= report.creator
+      else
+        td
+      if report.hostsLength >= 0
+        td.numField= report.hostsLength
+      else
+        td NaN
+      td= report.minDate.toLocaleString()
+      td= report.maxDate.toLocaleString()
+      td.numField= report.numRecords

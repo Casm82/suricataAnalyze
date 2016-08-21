@@ -1,13 +1,14 @@
 table#records {
   border-collapse: collapse;
-  table-layout: fixed;
 }
+
 td,th {
   border: 1px solid black;
-  word-wrap: break-word;
-  padding: 0.1em 0.25em;
+  padding: 0.1em 0.5em;
+  vertical-align: top;
 }
-col.ipCol,col.numsCol {width: 10em;}
+
+col.ts {width: 12em;}
 
 .link {
   float: left;

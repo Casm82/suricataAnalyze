@@ -1,15 +1,21 @@
 section div {margin: 0.5em}
 section .list { 
-	margin:	0 1em;
-	float: left;
+  margin:  0 1em;
+  float: left;
 }
 
-section textarea {	
-	border-radius: 4px;
-	box-shadow: 0 0 10px grey;
+section textarea {  
+  border-radius: 4px;
+  box-shadow: 0 0 10px grey;
 }
 
 #note {
-	clear: left;
-	padding: 1em;
+  clear: left;
+  padding: 1em;
+}
+
+button, input {
+  border: 1px solid grey;
+  border-radius: 3px;
+  margin: 0 0.25em;
 }

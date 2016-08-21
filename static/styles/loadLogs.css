@@ -1,10 +1,19 @@
 table {
-	border: 1px solid black;
-	border-collapse: collapse; 
+  border: 1px solid black;
+  border-collapse: collapse; 
 }
 td,th {
-	border: 1px solid black;
-	padding: 0.25em;
+  border: 1px solid black;
+  padding: 0.25em;
 }
 
 .numField {text-align: right;}
+
+button {
+  border: 1px solid grey;
+  border-radius: 3px;
+}
+
+#upload {
+  margin: 1em 0;
+}

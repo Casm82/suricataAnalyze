@@ -1,0 +1,207 @@
+extends layout
+block css
+  link(rel='stylesheet', href='/styles/selectTask.css')
+block scripts
+  script(src="/scripts/formatNumber.js")
+  script(src="/scripts/listReports.js")
+block header
+  div#headerStats
+    if dbStats.importing
+      p
+        strong Производится импорт журналов Suricata. Статистика недоступна.
+    else
+      div На данный момент база данных содержит&nbsp
+        strong.numField= dbStats.numRecords
+        | &nbspобращений к DNS
+      div за период с&nbsp
+        strong= dbStats.minDate.toLocaleString()
+        | &nbspпо&nbsp
+        strong= dbStats.maxDate.toLocaleString()
+      div Для анализа за другой период, выберите "Загрузить файлы журналов обращения к DNS в БД для анализа"
+block content
+  div.info Выберите задачу
+  form(id="editFilters" action="/editFilters" method="POST")
+  form(id="filterRecords" action="/filterRecords" method="POST")
+  form(id="searchByIP" action="/search" method="POST")
+  form(id="searchByRRname" action="/search" method="POST")
+  form(id="ipInReports" action="/report" method="POST")
+  table#selectTask
+    if !dbStats.importing
+      tr
+        td Загрузить файлы журналов обращения к DNS в БД для анализа
+        td(colspan="2")
+          a(href="/loadLogs")
+            button
+              img(src="/images/load.png")
+              | &nbspЗагрузить
+      tr
+        td Просмотреть все записи обращений к DNS в загруженных журналах (~5-8 Мб)
+        td
+          a(href="/viewFullLog.html")
+            button
+              |  html
+        td
+          a(href="/viewFullLog.json")
+            button
+              |  json
+      tr
+        td Просмотреть список наиболее частых DNS запросов в загруженных журналах
+        td
+          a(href="/viewTopQueries.html")
+            button
+              | html
+        td
+          a(href="/viewTopQueries.json")
+            button
+              | json
+      tr
+        td Просмотреть список наиболее частых доменов в DNS запросах в загруженных журналах 
+        td
+          a(href="/viewTopDomains.html")
+            button
+              | html
+        td
+          a(href="/viewTopDomains.json")
+            button
+              | json
+      //- tr
+        td Просмотреть список предупреждений
+        td
+          a(href="/viewAlerts.html")
+            button
+              | html
+        td
+          a(href="/viewAlerts.json")
+            button
+              | json
+      tr
+        td Просмотреть список обращений к SSH
+        td
+          a(href="/viewSSH.html")
+            button
+              | html
+        td
+          a(href="/viewSSH.json")
+            button
+              | json
+      tr
+        td Найти обращения к DNS с ip адреса в загруженных журналах
+        td
+          input(form="searchByIP" name="srcip" placeholder="ip адрес" required pattern="\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}" size="15")
+        td
+          button(form="searchByIP" type="submit")
+            | Поиск
+      tr
+        td Найти обращения к DNS по значению rrname в загруженных журналах
+        td
+          input(form="searchByRRname" name="rrname" placeholder="доменное имя" required size="15")
+        td
+          button(form="searchByRRname" type="submit")
+            | Поиск
+      tr
+        td Найти обращения к DNS с ip адреса в отчётах, созданных с помощью фильтра:&nbsp
+          select(form="ipInReports" required size="1" name="filterName")
+            each filter in filters
+              option= filter._id
+        td
+          input(form="ipInReports" name="reportIP" placeholder="ip адрес" required pattern="\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}" size="15")
+        td
+          button(form="ipInReports" type="submit")
+            | Поиск
+      tr
+        td Отредактировать список исключаемых доменов и компьютеров
+        if filters.length
+          td
+            | фильтр:
+            select(form="editFilters" required size="1" name="filterName")
+              each filter in filters
+                option= filter._id
+            td
+              button(form="editFilters" type="submit")
+                img(src="/images/edit.png")
+                | &nbspРедактировать
+        else
+          input(form="editFilters" type="hidden" name="filterName" value=null)
+          td(colspan="2")
+            button(form="editFilters" type="submit")
+              img(src="/images/edit.png")
+              | &nbspВыполнить
+        if filters.length
+          tr
+          td Отфильтровать записи обращений к DNS согласно списку
+          td
+            | фильтр:
+            select(form="filterRecords" required size="1" name="filterName")
+              each filter in filters
+                option= filter._id
+          td
+            button(form="filterRecords" type="submit")
+              img(src="/images/filter.png")
+              | &nbspФильтровать
+    else
+      tr
+        td Отредактировать список исключаемых доменов и компьютеров
+        if filters.length
+          td
+            select(form="editFilters" required size="1" name="filterName")
+              each filter in filters
+                option= filter._id
+          td
+            button(form="editFilters" type="submit")
+              img(src="/images/edit.png")
+              | &nbspРедактировать
+        else
+          input(form="editFilters" type="hidden" name="filterName" value=null)
+          td(colspan="2")
+            button(form="editFilters" type="submit")
+              img(src="/images/edit.png")
+              | &nbspВыполнить
+
+   div
+     div.info Справка по командам:
+     - var realm = appSettings.basicAuth.user + ":" + appSettings.basicAuth.password;
+     ul
+     li
+       span Получить полный журнал обращений к DNS:&nbsp
+       br
+       code curl -k -u&nbsp
+       span= realm
+       | &nbsphttps://suricata.domain.ru:3000/rest/getFullLog
+     li
+       span Получить список наиболее частых DNS запросов:&nbsp
+       br
+       code curl -k -u&nbsp
+       span= realm
+       | &nbsphttps://suricata.domain.ru:3000/rest/getTopQueries
+     li
+       span Получить список наиболее частых доменов в DNS запросах:&nbsp
+       br
+       code curl -k -u&nbsp
+       span= realm
+       | &nbsphttps://suricata.domain.ru:3000/rest/getTopDomains
+
+  div
+    p.info Список последних созданных отчётов
+    p
+      span#reportLimit
+      span#totalReports(data-numreports=numReports) Всего отчётов создано:&nbsp
+         =numReports
+         |.&nbsp
+      span Выводить отчётов на страницу:
+        select#reportsPerPage(name="reportsPerPage")
+          option(value="30") 30
+          option(value="100") 100
+          option(value="250") 250
+          option(value="500") 500
+          option(value="1000") 1000
+          option(value="0") Всё
+    p Страница:&nbsp
+      span#currentPage
+      span &nbspиз&nbsp
+      span#totalPages
+      span#slider
+
+    div#crt
+
+  footer
+    small 11.05.2016

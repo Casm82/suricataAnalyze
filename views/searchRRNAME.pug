@@ -1,0 +1,42 @@
+extends layout
+block css
+  link(rel='stylesheet', href='/styles/search.css')
+block scripts
+  script(src="/scripts/formatNumber.js")
+
+block header
+  div#headerStats
+    div
+      strong= title
+    div На основе анализа&nbsp
+      span.numField= dbStats.numRecords
+      | &nbspобращений к DNS за период с&nbsp
+      strong= dbStats.minDate.toLocaleString()
+      | &nbspпо&nbsp
+      strong= dbStats.maxDate.toLocaleString()
+    div Количество записей в отчёте:&nbsp
+      span= records.length
+
+block content
+  if (records && records.length)
+    table#records
+      colgroup
+        col.ts
+        col.ip
+        col.ip
+        col.type
+      tbody
+        tr
+          th Время запроса
+          th Адрес источника
+          th Адрес назначения
+          th Тип запроса
+        each record in records
+          tr
+            td= record.timestamp.replace("t", " ")
+            td
+              a(href="/search/srcip/" + record.src_ip)= record.src_ip
+            td= record.dest_ip
+            td= record.dns.rrtype
+  else
+    div.info Записей не найдено

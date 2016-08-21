@@ -1,0 +1,14 @@
+/var/log/suricata/*.log /var/log/suricata/*.json
+{
+    rotate 7
+    size 500M
+    nodateext
+    ifempty
+    missingok
+    nocompress
+    create 644 suri suri
+    sharedscripts
+    postrotate
+    systemctl restart suricata.service
+    endscript
+}

@@ -1,21 +1,24 @@
+body {
+  font: normal 14px/16px tahoma, sans;
+}
 header {
-	font: normal 16px/18px tahoma, sans;
-	padding: 0.5em;
-	position: fixed;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 3em;
+  font: normal 16px/18px tahoma, sans;
+  padding: 0.5em;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 3em;
     color: #FFF;
-	background: #4C9ED9;
-	border-bottom: 2px solid silver;
+  background: #4C9ED9;
+  border-bottom: 2px solid silver;
 }
 
 header a { font-weight: bolder; 
-	color: white;
-	text-decoration: underline;
-	text-decoration-style: dashed;
-	-moz-text-decoration-style: dotted;
+  color: white;
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  -moz-text-decoration-style: dotted;
 }
 
 header a:hover { color: black; }
@@ -27,8 +30,8 @@ header a:hover { color: black; }
 #headerStats {
     position: absolute;
     left: 5em;
-	max-width: 55em;
-	font-size: 0.85em;
+  max-width: 55em;
+  font-size: 0.85em;
 }
 
 #headerSession {
@@ -38,7 +41,7 @@ header a:hover { color: black; }
 }
 
 #headerSession div {
-	text-align: right;
+  text-align: right;
 }
 
 h1 {font-size: 1.1em;}
@@ -46,25 +49,25 @@ h1 {font-size: 1.1em;}
 h2 { font-size: 1.0em;}
 
 .link a {
-	text-decoration: none;
-	color: black;
+  text-decoration: none;
+  color: black;
 }
 
 .link:nth-child(odd){
-	background: #E0E0E0;
+  background: #E0E0E0;
 }
 
 .link:nth-child(even){
-	background: #D5D5D5;
+  background: #D5D5D5;
 }
 
 .info {
-	font-size: 1.1em;
-	font-weight: bold;
-	margin: 0.5em;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin: 0.5em;
 }
 
-section { padding: 4em 0 1em; }
+section { padding: 5em 0 1em; }
 
 footer {
     position: fixed;

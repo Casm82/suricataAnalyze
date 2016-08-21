@@ -1,0 +1,23 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title= title
+    link(rel='stylesheet', href='/styles/layout.css')
+    block css
+    block scripts
+  body
+    header
+      div#headerHome
+        a(href='/')
+          img(src="/images/home.png" alt="Начальная страница" title="Перейти на начальную страницу")
+      block header
+      div#headerSession
+        if (session)
+          div Вы вошли как:&nbsp
+            = session
+          if (authType == "ldap")
+            div
+              a(href='/logout') Выйти
+    section
+      block content

@@ -1,0 +1,65 @@
+extends layout
+block css
+  link(rel='stylesheet', href='/styles/editFilters.css')
+
+block header
+  div#headerStats
+    div
+    strong Редактирование фильтра:&nbsp
+      span= filter._id
+    div Количество исключаемых компьютеров:&nbsp
+      span= filter.registeredComputers.length
+    div Количество исключаемых доменов:&nbsp
+      span= filter.whiteDomains.length
+
+block content
+  form(id="editList" action="/saveFilter" method="POST")
+  form(id="deleteList" action="/deleteFilter" method="POST")
+
+  div
+    span Сохранить список как:&nbsp
+    input(form="editList" name="filterName" value=filter._id required autofocus placeholder="Название фильтра без пробелов" size="30" pattern="[a-zA-Zа-яА-Я0-9_-]+")
+    button(form="editList" type="submit")
+      img(src="/images/save.png")
+      | &nbspСохранить
+    button(form="editList" type="reset")
+      img(src="/images/undo.png")
+      | &nbspОтменить
+    a(href="/app")
+      button
+        img(src="/images/home-small.png")
+        | &nbspНа главную
+    input(form="deleteList" type="hidden" name="filterName" value=filter._id)
+    button(form="deleteList" type="submit")
+      img(src="/images/delete.png")
+      | &nbspУдалить список
+
+  div
+    div
+      strong Список регулярных выражения для исключения компьютеров
+    textarea(form="editList" autofocus rows="5" cols="129" name="regexpLists")
+      if filter&&filter.regexpLists
+        each host in filter.regexpLists
+          = host
+          | &#13&#10;
+
+    div.list
+      div
+        strong Имена компьютеров (без dns суффикса), зарегистрированных в DNS:
+      textarea(form="editList" autofocus rows="28" cols="60" name="registeredComputers")
+        if filter&&filter.registeredComputers
+          each host in filter.registeredComputers
+            = host
+            | &#13&#10;
+
+    div.list
+      div
+        strong Список доменов второго уровня, которые исключаются из отчёта:
+      textarea(form="editList" autofocus rows="28" cols="60" name="whiteDomains")
+        if filter&&filter.whiteDomains
+          each host in filter.whiteDomains
+            = host
+            | &#13&#10;
+
+    div#note
+      i Имена компьютеров, содержащие пробелы, будут пропущены при сохранении.

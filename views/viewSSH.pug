@@ -1,0 +1,34 @@
+extends layout
+block css
+  link(rel='stylesheet', href='/styles/viewSSH.css')
+
+block header
+  div#headerStats Список обращений к службе SSH
+
+block content
+  div.tbl
+    if (ssh_clients && ssh_clients.length)
+      table
+        tbody
+          tr
+            th Клиент SSH
+            th Количество обращений
+          each client in ssh_clients
+            tr
+              td= client._id
+              td= client.count
+    else
+        p Нет подключений клиентов по SSH
+  div.tbl
+    if (ssh_servers && ssh_servers.length)
+      table
+        tbody
+          tr
+            th Сервер SSH
+            th Количество обращений
+          each server in ssh_servers
+            tr
+              td= server._id
+              td= server.count
+    else
+        p Нет подключений к серверам по SSH

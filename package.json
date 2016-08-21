@@ -1,20 +1,23 @@
 {
   "name": "dnsAnalyze",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
-  "description": "Analyze dns queries",
+  "description": "Analyze dns queries from Suricata log",
   "main": "app.js",
   "author": "Casm",
-  "license": "GPL v2",
+  "license": "GPL v3",
   "homepage": "https://github.com/Casm82/dnsAnalyze",
-  "dependencies": {  
-    "async": "0.x",
-    "activedirectory": "0.x",
-    "express": "4.x",
-    "express-middlewares": "0.x",
-    "express-sessions": "1.x",
-    "jade": "1.x",
-    "mongoose": "3.x",
-    "socket.io": "0.x"
+  "dependencies": {
+    "activedirectory": "^0.7.2",
+    "async": "^2.0.1",
+    "connect": "^3.4.1",
+    "connect-mongodb-session": "^0.1.1",
+    "express": "^4.14.0",
+    "express-middlewares": "^0.1.1",
+    "express-session": "^1.14.0",
+    "mongoose": "^4.5.9",
+    "passport": "^0.3.2",
+    "passport-negotiate": "^0.1.4",
+    "pug": "^2.0.0-beta5"
   }
 }

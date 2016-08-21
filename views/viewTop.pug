@@ -1,0 +1,50 @@
+extends layout
+block css
+  link(rel='stylesheet', href='/styles/viewTop.css')
+block scripts
+  script(src="/scripts/formatNumber.js")
+
+block header
+  div#headerStats
+    div
+      strong= title
+    div На основе анализа&nbsp
+      span.numField= dbStats.numRecords
+      | &nbspобращений к DNS за период с&nbsp
+      strong= dbStats.minDate.toLocaleString()
+      | &nbspпо&nbsp
+      strong= dbStats.maxDate.toLocaleString()
+    div Количество записей в отчёте:&nbsp
+      span= records.length
+
+block content
+  div.info
+    div Для открытия подробной статистики обращений к DNS, щёлкните по записям в ячейках.
+    div Открытие статистики о доменах, с количеством запросов более 10 000, может занять длительное время.
+  if (records && records.length)
+    table#records
+      colgroup
+        col.query
+        col.count
+      tbody
+        tr
+          th Запрос DNS
+          th Количество запросов
+        each record in records
+          tr
+            td
+              div.link
+                a(href="/search/rrname/" + record._id)= record._id
+            td= record.value
+  else
+    if dbStats.importing
+      p Производится импорт журналов Suricata. Статистика недоступна.
+      a(href="/")
+        button
+          | OK
+    else
+      h1 Анализ записей ещё не проводился
+      br
+      a(href="/loadLogs")
+        button
+        | Загрузить журналы и провести анализ

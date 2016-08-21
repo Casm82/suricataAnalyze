@@ -8,10 +8,10 @@ db.dns.aggregate([
 
 var tmpStats = db.tmpDBStats.findOne();
 var dbStatsRecord= {
-	"_id": tmpStats._id,
-	"minDate": new Date(tmpStats.minDate.replace("t"," ")),
-	"maxDate": new Date(tmpStats.maxDate.replace("t"," ")),
-	"numRecords": tmpStats.numRecords
+  "_id": tmpStats._id,
+  "minDate": new Date(tmpStats.minDate.toUpperCase()),
+  "maxDate": new Date(tmpStats.maxDate.toUpperCase()),
+  "numRecords": tmpStats.numRecords
 }
 
 db.dbStats.drop();

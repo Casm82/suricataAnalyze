@@ -1,0 +1,31 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/styles/layout.css')
+    link(rel='stylesheet', href='/styles/login.css')
+  body
+    if (code=="notLoggedIn")
+      div#errorMsg
+        p Вы не авторизованы&nbsp
+        p
+          a(href="/")
+            button Выполните вход
+    if (code=="notAuthed")
+      div#errorMsg 
+        p Не верный пароль для пользователя&nbsp
+          strong= username
+          | .
+        p
+          a(href="/")
+            button Повторить ввод пароля
+    if (code=="notPermited")
+      div#errorMsg
+        p Пользователю&nbsp
+          strong= username
+          | &nbspне предостален доступ для входа.
+        p Обратитесь к Администратору, для включения пользователя&nbsp
+          strong= username
+          | &nbspв группу&nbsp
+          br
+          strong= group

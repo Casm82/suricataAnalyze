@@ -1,0 +1,42 @@
+extends layout
+block css
+  link(rel='stylesheet', href='/styles/reportIP.css')
+block scripts
+  script(src="/scripts/formatNumber.js")
+
+block header
+  div#headerStats
+    div
+      strong= title
+    div Отображены отчёты, созданные с помощью фильтра&nbsp
+      strong= filterName
+
+
+block content
+  if (records && records.length)
+    table#records
+      colgroup
+        col.ts
+        col.rrname
+      tbody
+        tr
+          th Дата создания отчёта
+          th Список запросов
+        each record in records
+          tr
+            td
+              p Создан:&nbsp
+                br
+                a(href="/viewReport/" + record._id)= record.created.toLocaleString()
+              p Первая запись:&nbsp
+                br
+                = record.minDate.toLocaleString()
+              p Последняя запись:
+                br
+                = record.maxDate.toLocaleString()
+            td
+              table
+                each val in record.rrnames
+                  div.link= val
+  else
+    div.info Записей не найдено

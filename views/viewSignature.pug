@@ -1,0 +1,40 @@
+extends layout
+block css
+  link(rel='stylesheet', href='/styles/viewQueries.css')
+block scripts
+  script(src="/scripts/formatNumber.js")
+
+block header
+  div#headerStats Список предупреждений по сигнатуре&nbsp
+    span= records[0].alert.signature_id
+    span :&nbsp
+    span= records[0].alert.signature
+
+block content
+  div Время, источник и назначение
+  if (records && records.length)
+    table#records
+      //colgroup
+        col.numsCol
+        col
+        col.numsCol
+      tbody
+        tr
+          th Время
+          th Источник
+          th Назначение
+        each record in records
+          tr
+            td= (new Date(record.timestamp)).toLocaleString()
+            td
+              = record.src_ip
+              if record.src_port
+                |:
+                = record.src_port
+            td
+              = record.dest_ip
+              if record.dest_port
+                |:
+                = record.dest_port
+  else
+    p Отчёт пуст
